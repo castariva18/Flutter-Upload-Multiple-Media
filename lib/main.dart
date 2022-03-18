@@ -34,7 +34,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final ImagePicker _picker = ImagePicker();
-  List<XFile> _imgList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,51 +41,15 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      imageSelector();
-                    });
-                  },
-                  child: Text('Select Image')),
-              Expanded(
-                child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3),
-                    itemCount: _imgList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Image.file(
-                              File(_imgList[index].path),
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              right: 4,
-                              top: 4,
-                              child: InkWell(
-                                onTap: () {
-                                  _imgList.removeAt(index);
-                                  setState(() {});
-                                },
-                                child: Container(
-                                  color: Color.fromRGBO(255, 255, 255, 0.7),
-                                  child: Icon(Icons.delete),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    }),
-              )
-            ],
+          child: Center(
+            child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    // capture(MediaSource.video);
+                    videoSelector();
+                  });
+                },
+                child: Text('Select media')),
           ),
         ));
   }
@@ -95,7 +58,20 @@ class _MyHomePageState extends State<MyHomePage> {
     final XFile? selectedImage =
         await _picker.pickImage(source: ImageSource.gallery);
     if (selectedImage!.path.isNotEmpty) {
-      _imgList.add(selectedImage);
+      print(selectedImage.path.toString());
+    } else {
+      print('No image');
+    }
+    setState(() {});
+  }
+
+  void videoSelector() async {
+    final XFile? selectedVideo =
+        await _picker.pickVideo(source: ImageSource.gallery);
+    if (selectedVideo!.path.isNotEmpty) {
+      print(selectedVideo.path.toString());
+    } else {
+      print('No video');
     }
     setState(() {});
   }
