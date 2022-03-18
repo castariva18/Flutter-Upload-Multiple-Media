@@ -131,4 +131,17 @@ class _HomeState extends State<Home> {
       }
     });
   }
+
+  Future getVideo() async {
+    final pickedVideo =
+        await singlePicker.pickVideo(source: (ImageSource.gallery));
+    setState(() {
+      if (pickedVideo != null) {
+        //singleImage = File(pickedImage.path);
+        print('path single: ${pickedVideo.path}');
+      } else {
+        print('No Image Selected');
+      }
+    });
+  }
 }
